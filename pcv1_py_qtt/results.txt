@@ -1,0 +1,38 @@
+(venv) MacBookAir:pcv1_py_qtt truongquocthong$ python main.py mandrill.png 
+Load image: start
+Load image: done ( 256 x 256 )
+
+point 1: [2. 3. 1.]^T
+point 2: [-4.  5.  1.]^T
+
+joining line: [-2. -6. 22.]^T
+
+Translation matrix:
+[[ 1.  0.  6.]
+ [ 0.  1. -7.]
+ [ 0.  0.  1.]]
+
+Rotation matrix:
+[[ 0.9659258  -0.25881904  0.        ]
+ [ 0.25881904  0.9659258   0.        ]
+ [ 0.          0.          1.        ]]
+
+Scaling matrix:
+[[8. 0. 0.]
+ [0. 8. 0.]
+ [0. 0. 1.]]
+
+Homography:
+[[  7.7274065  -2.0705523  60.858307 ]
+ [  2.0705523   7.7274065 -41.668533 ]
+ [  0.          0.          1.       ]]
+
+new point 1: [ 70.10146  -14.345207   1.      ]^T
+new point 1 (eucl): [ 70.10146  -14.345207]^T
+new point 2: [ 19.595917 -11.313711   1.      ]^T
+new point 2 (eucl): [ 19.595917 -11.313711]^T
+
+new line: [-0.04736717 -0.7891491  -8.000004  ]^T
+
+first point lies still on the line *yay*
+second point lies still on the line *yay*
