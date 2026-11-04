@@ -63,8 +63,8 @@ def getRotationMatrix_2D(phi):
     """
     # TO DO !!!
     
-    phi = np.deg2rad(phi) #degrees to radians
-    return np.array([[np.cos(phi), -np.sin(phi), 0], [np.sin(phi), np.cos(phi), 0], [0, 0, 1]], dtype=np.float32)
+    rad = np.deg2rad(phi) #degrees to radians
+    return np.array([[np.cos(rad), -np.sin(rad), 0], [np.sin(rad), np.cos(rad), 0], [0, 0, 1]], dtype=np.float32)
 
 def getScalingMatrix_2D(lambda_):
     """
