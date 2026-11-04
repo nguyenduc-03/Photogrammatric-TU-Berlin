@@ -20,7 +20,7 @@ def eucl2hom_point_2D(p):
     @return: The same point in homogeneous coordinates
     """
     # TO DO !!!
-    return np.array([0.0, 0.0, 0.0], dtype=np.float32)
+    return np.array([p[0],p[1],1.0], dtype=np.float32)
 
 
 def hom2eucl_point_2D(p):
@@ -30,7 +30,7 @@ def hom2eucl_point_2D(p):
     @return: The same point in Euclidean coordinates
     """
     # TO DO !!!
-    return np.array([0.0, 0.0], dtype=np.float32)
+    return np.array([p[0] / p[2], p[1] / p[2]], dtype=np.float32)
 
 
 def getConnectingLine_2D(p1, p2):
@@ -41,7 +41,7 @@ def getConnectingLine_2D(p1, p2):
     @return: The joining line in homogeneous coordinates
     """
     # TO DO !!!
-    return np.array([0.0, 0.0, 0.0], dtype=np.float32)
+    return np.cross(p1, p2).astype(np.float32)
 
 
 def getTranslationMatrix_2D(dx, dy):
@@ -52,7 +52,10 @@ def getTranslationMatrix_2D(dx, dy):
     @return: The resulting translation matrix
     """
     # TO DO !!!
-    return np.eye(3, dtype=np.float32)
+    T = np.eye(3, dtype=np.float32)
+    T[0, 2] = dx
+    T[1, 2] = dy
+    return T
 
 
 def getRotationMatrix_2D(phi):
@@ -62,7 +65,16 @@ def getRotationMatrix_2D(phi):
     @return: The resulting rotation matrix
     """
     # TO DO !!!
-    return np.eye(3, dtype=np.float32)
+    R = np.eye(3, dtype=np.float32)
+    phi_rad = np.deg2rad(phi)
+    c= np.cos(phi_rad)
+    s = np.sin(phi_rad)
+
+    R[0, 0] = c
+    R[0, 1] = -s
+    R[1, 1] = c
+    R[1, 0] = s
+    return R
 
 
 def getScalingMatrix_2D(lambda_):
@@ -72,7 +84,10 @@ def getScalingMatrix_2D(lambda_):
     @return: The resulting scaling matrix
     """
     # TO DO !!!
-    return np.eye(3, dtype=np.float32)
+    S = np.eye(3, dtype=np.float32)
+    S[0, 0] = lambda_
+    S[1, 1] = lambda_
+    return S
 
 
 def getH_2D(T, R, S):
@@ -85,7 +100,7 @@ def getH_2D(T, R, S):
     @return: The combined homography
     """
     # TO DO !!!
-    return np.eye(3, dtype=np.float32)
+    return (S @ R @ T).astype(np.float32)
 
 
 def applyH_2D(geomObjects, H, gtype):
@@ -110,10 +125,13 @@ def applyH_2D(geomObjects, H, gtype):
 
     if gtype == GEOM_TYPE_POINT:
         # TO DO !!!
-        pass
+        for obj in geomObjects:
+            result.append((H @ obj).astype(np.float32))
     elif gtype == GEOM_TYPE_LINE:
         # TO DO !!!
-        pass
+        H_inv_T = np.linalg.inv(H).T
+        for obj in geomObjects:
+            result.append((H_inv_T @ obj).astype(np.float32))
     else:
         raise RuntimeError("Unhandled geometry type!")
     
@@ -129,7 +147,8 @@ def isPointOnLine_2D(point, line, eps=1e-5):
     @return: Returns True if the point is on the line
     """
     # TO DO !!!
-    return False
+    dist = np.dot(point, line)
+    return bool(np.abs(dist) < eps)
 
 
 def run(filename):
@@ -146,6 +165,7 @@ def run(filename):
     
     # TO DO !!!
     # inputImage = ???
+    inputImage = cv.imread(filename, cv.IMREAD_GRAYSCALE)
     
     if inputImage is None:
         print(f"ERROR: image could not be loaded from {filename}")
@@ -168,7 +188,9 @@ def run(filename):
     v2 = None
     # TO DO !!!
     # define v1 as homogeneous version of x
+    v1 = eucl2hom_point_2D(x)
     # define v2 as homogeneous version of y
+    v2 = eucl2hom_point_2D(y)
     
     # print points
     print(f"point 1: {v1}^T")
